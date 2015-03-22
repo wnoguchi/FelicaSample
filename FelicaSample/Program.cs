@@ -15,7 +15,22 @@ namespace FelicaSample
             {
                 using (Felica f = new Felica())
                 {
-                    readNanaco(f);
+                    // 共通ポーリング実行
+                    f.Polling((int)SystemCode.Common);
+
+                    // IDm を取得する
+                    var idm = f.IDm();
+
+                    // バイト数を念のため確認する
+                    Console.WriteLine(string.Format("Bytes: {0}", idm.Length));
+
+                    // IDm をプリントする
+                    Console.Write("IDm: ");
+                    foreach (var b in idm)
+                    {
+                        Console.Write(string.Format("{0:X2}", b));
+                    }
+                    Console.Write("\r\n");
                 }
             }
             catch (Exception ex)
