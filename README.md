@@ -13,6 +13,7 @@ References
 1. [良いもの。悪いもの。: Python: PaSoRiでSuicaの履歴を読み出す](http://handasse.blogspot.com/2008/03/python-pasorisuica.html)
 1. [白執事の徒然なる日々 VB.NET で felicalib.dll を使ってみる](http://siroshitsuji.blog.fc2.com/blog-entry-18.html)
 1. [FeliCa の Id を python で読む(その2) — takanory.net](http://takanory.net/takalog/824)
+1. [sakapon/felicalib-remodeled](https://github.com/sakapon/felicalib-remodeled)
 
 ### Not exactly related links.
 
