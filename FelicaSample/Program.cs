@@ -9,28 +9,18 @@ namespace FelicaSample
 {
     class Program
     {
+        /// <summary>
+        /// Entry Point.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             try
             {
                 using (Felica f = new Felica())
                 {
-                    // 共通ポーリング実行
-                    f.Polling((int)SystemCode.Common);
-
-                    // IDm を取得する
-                    var idm = f.IDm();
-
-                    // バイト数を念のため確認する
-                    Console.WriteLine(string.Format("Bytes: {0}", idm.Length));
-
-                    // IDm をプリントする
-                    Console.Write("IDm: ");
-                    foreach (var b in idm)
-                    {
-                        Console.Write(string.Format("{0:X2}", b));
-                    }
-                    Console.Write("\r\n");
+                    PrintIDm(f);
+                    PrintEdyNo(f);
                 }
             }
             catch (Exception ex)
@@ -39,7 +29,51 @@ namespace FelicaSample
             }
         }
 
-        private static void readNanaco(Felica f)
+        private static void PrintIDm(Felica f)
+        {
+            // 共通ポーリング実行
+            f.Polling((int)SystemCode.Common);
+
+            // IDm を取得する
+            var idm = f.IDm();
+
+            // バイト数を念のため確認する
+            Console.WriteLine(string.Format("Bytes: {0}", idm.Length));
+
+            // IDm をプリントする
+            Console.Write("IDm: ");
+            foreach (var b in idm)
+            {
+                Console.Write(string.Format("{0:X2}", b));
+            }
+            Console.Write("\r\n");
+        }
+
+        /// <summary>
+        /// Print Edy No.
+        /// </summary>
+        /// <param name="f"></param>
+        private static void PrintEdyNo(Felica f)
+        {
+            f.Polling((int)SystemCode.Edy);
+            byte[] edyNoByteArray = f.ReadWithoutEncryption(0x110B, 0)
+                .Skip(2)
+                .Take(8)
+                .ToArray();
+
+            Console.Write("Edy No.: ");
+            foreach (var b in edyNoByteArray)
+            {
+                Console.Write(string.Format("{0:X2}", b));
+            }
+            Console.Write("\r\n");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        private static void ReadNanaco(Felica f)
         {
             f.Polling((int)SystemCode.Common);
             byte[] data = f.ReadWithoutEncryption(0x558b, 0);
